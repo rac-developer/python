@@ -1,6 +1,10 @@
 # Pueden tener combinanciones de atributos o metodos
 class Car:
 
+    # Variable de clase
+    ruedas = 4
+
+    # Variable de instacia
     def __init__(self, marca, modelo, ano, color):
         self.marca = marca
         self.modelo = modelo

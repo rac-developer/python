@@ -1,17 +1,6 @@
 from tkinter import *
-
-def enviar():
-  user = entrada.get()
-  print('Hola ' + user + ' bienvenido')
-  # Esto bloquea el input despues de haber enviardo el mensaje
-  entrada.config(state=DISABLED)
-  
-def reset ():
-  entrada.delete(0, END)
-  
-def borrar():
-  entrada.delete( len(entrada.get()) - 1, END)
-
+# Debemos importar el messagebox
+from tkinter import messagebox
 
 windows = Tk()
 
@@ -21,20 +10,55 @@ icono = PhotoImage(file='icon.png')
 windows.iconphoto(True, icono)
 windows.config(background='#f2f2f2')
 
-entrada = Entry(windows, font=('Arial', 18), fg='red', bg='black',
-                # Esto lo que hace es que cada vez que escribas cualquier caracter se va a ver el que pongas en show
-                show='*')
-entrada.insert(0, 'Escribe tu nombre')
-entrada.pack(side=LEFT)
+def click():
+    # Mostramos un mensaje de información
+    messagebox.showinfo(title="Information", message="Button clicked!")
 
-boton_enviar = Button(windows, text='Enviar', command=enviar)
-boton_enviar.pack(side=RIGHT)
+def warning():
+    # Mostramos un mensaje de advertencia
+    # messagebox.showwarning(title="Warning", message="This is a warning message!")
+    
+    # Bucle infinito de mensajes de advertencia
+    while True:
+        messagebox.showwarning(title="Warning", message="This is a warning message!")
+        
+def error():
+    # Mostramos un mensaje de error
+    messagebox.showerror(title="Error", message="This is an error message!")
+    
+def ask():
+    # Preguntamos al usuario una pregunta
+    # messagebox.askquestion(title="Question", message="Do you like Python?")
+    
+    # Vemos lo botones de cancelar o reintentar
+    # if (messagebox.askretrycancel(title="Retry or Cancel", message="Do you want to retry?")):
+    #     print("Retry")
+    # else:
+    #     print("Cancel")
 
-boton_resetear = Button(windows, text='Resetear', command=reset)
-boton_resetear.pack(side=RIGHT)
+    # Vemos los botones de si o no
+    # preguntas = messagebox.askquestion(title="Yes or No", message="Do you like Python?")
+    
+    # if (preguntas == 'yes'):
+    #     print("You like Python")
+    # elif (preguntas == 'no'):
+    #     print("You don't like Python")
+    
+    # Programa con 3 botones
+    var = messagebox.askyesnocancel(title="Advertencia!", message="Estas seguro que quieres salir?", icon='warning')
+    print(var)
+    
+    
+infoButton = Button(windows, text="Show Info", command=click)
+infoButton.pack(pady=20)
 
-boton_borrar = Button(windows, text='Borrar', command=borrar)
-boton_borrar.pack(side=RIGHT)
+warningButton = Button(windows, text="Show Warning", command=warning)
+warningButton.pack(pady=20)
 
+errorButton = Button(windows, text='Show Error', command=error)
+errorButton.pack(pady=20)
+
+askButton = Button(windows, text='Ask Question', command=ask)
+askButton.pack(pady=20)
 
 windows.mainloop()

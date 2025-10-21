@@ -1,4 +1,7 @@
 from tkinter import *
+# Importamos la siguiente librería para usar temas
+from tkinter.ttk import *
+import time
 
 windows = Tk()
 
@@ -8,39 +11,32 @@ icono = PhotoImage(file='icon.png')
 windows.iconphoto(True, icono)
 windows.config(background='#f2f2f2')
 
-def abrirArchivo():
-    print("Abrir archivo")
+def start():
+    GB = 10
+    dowloaded = 0
+    speed = 1  # GB por segundo
+    while (dowloaded < GB):
+        time.sleep(0.05)
+        # bar['value']+=10
+        # dowloaded+=1
+        bar['value'] += (speed / GB) * 100
+        dowloaded += speed
+        porcentaje.set(str(int((dowloaded/GB)*100)) + "% descargado")
+        texto.set(str(dowloaded) + "/" + str(GB) + " GB descargados")
+        windows.update_idletasks()
 
-def guardarArchivo():
-    print("Guardar archivo")
+porcentaje = StringVar()
+porcentaje.set("0% descargado")
 
-def recortar():
-    print("Recortar")
+texto = StringVar()
+texto.set("0/0 GB descargados")
+        
+bar = Progressbar(windows, orient=HORIZONTAL, length=300)
+bar.pack(padx=10, pady=10)
 
-def copiar():
-    print("Copiar")
+textoLabel = Label(windows, textvariable=porcentaje).pack(padx=10, pady=10)
+comLabel = Label(windows, textvariable=texto).pack(padx=10, pady=10)
 
-def pegar():
-    print("Pegar")
-
-openImage = PhotoImage(file='open.png')
-saveImage = PhotoImage(file='save.png')
-exitImage = PhotoImage(file='exit.png')
-
-menubar = Menu(windows)
-windows.config(menu=menubar)
-
-fileMenu = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="File", menu=fileMenu)
-fileMenu.add_command(label="Open", command=abrirArchivo, image=openImage, compound='left')
-fileMenu.add_command(label="Save", command=guardarArchivo, image=saveImage, compound='left')
-fileMenu.add_separator()
-fileMenu.add_command(label="Exit", command=windows.quit, image=exitImage, compound='left')
-
-editMenu = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Edit", menu=editMenu)
-editMenu.add_command(label="Cut", command=recortar)
-editMenu.add_command(label="Copy", command=copiar)
-editMenu.add_command(label="Paste", command=pegar)
+boton = Button(windows, text="Descargar", command=start).pack()
 
 windows.mainloop()

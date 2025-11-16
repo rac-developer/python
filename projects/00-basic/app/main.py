@@ -1,3 +1,4 @@
+import time
 from tkinter import *
 
 windows = Tk()
@@ -8,33 +9,31 @@ icono = PhotoImage(file='icon.png')
 windows.iconphoto(True, icono)
 windows.config(background='#f2f2f2')
 
-# 1era forma usando python nativo
-
-def move_up(event):
-    canvas.move(miImagen, 0, -10)
-
-def move_down(event):
-    canvas.move(miImagen, 0, +10)
-
-def move_left(event):
-    canvas.move(miImagen, -10, 0)
+def update ():
+    # Obtener la hora actual %H es la hora en formato 24 horas, %I es en formato 12 horas
+    # %M son los minutos, %S son los segundos, %p es AM o PM
+    time_string = time.strftime('%H:%M:%S %p')
+    time_label.config(text=time_string)
     
-def move_right(event):
-    canvas.move(miImagen, +10, 0)
+    time_label.after(1000, update)  # Actualizar cada 1000 ms (1 segundo)
 
-windows.bind("<w>", move_up)
-windows.bind("<s>", move_down)
-windows.bind("<a>", move_left)
-windows.bind("<d>", move_right)
+    day_string = time.strftime('%A')
+    day_label.config(text=day_string)
+    
+    date_string = time.strftime('%B %d, %Y')
+    date_label.config(text=date_string)
 
-windows.bind("<Up>", move_up)
-windows.bind("<Down>", move_down)
-windows.bind("<Left>", move_left)
-windows.bind("<Right>", move_right)
+    print(time_string)
 
-canvas = Canvas(windows, width=500, height=500)
-canvas.pack()
+time_label = Label(windows, text='', font=('Arial', 50, ),fg='white' , bg="#161616")
+time_label.pack()
 
-miImagen = canvas.create_image(0,0,image=icono, anchor=NW)
+day_label = Label(windows, font=('Ink Free', 25, ),fg="#161616")
+day_label.pack()
+
+date_label = Label(windows, font=('Ink Free', 25, ),fg="#161616")
+date_label.pack()
+
+update()
 
 windows.mainloop()
